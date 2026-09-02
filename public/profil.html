@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Mon profil — Weazel News</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .profile-page {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px 60px;
+        }
+
+        .profile-header {
+            background: #050505;
+            color: white;
+            padding: 35px;
+            border-top: 5px solid #e30613;
+            margin-bottom: 25px;
+        }
+
+        .profile-header small {
+            color: #e30613;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .profile-header h1 {
+            margin: 8px 0;
+            font-size: 34px;
+        }
+
+        .profile-header p {
+            margin: 0;
+            color: #ccc;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .profile-card h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-row:last-child {
+            border-bottom: 0;
+        }
+
+        .profile-label {
+            font-weight: 700;
+            color: #555;
+        }
+
+        .profile-value {
+            text-align: right;
+            font-weight: 600;
+            color: #111;
+        }
+
+        .bio {
+            background: #f7f7f7;
+            border-left: 4px solid #e30613;
+            padding: 18px;
+            margin-top: 10px;
+            min-height: 50px;
+            white-space: pre-wrap;
+            color: #333;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-profile {
+            display: inline-block;
+            padding: 12px 18px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .btn-red {
+            background: #e30613;
+            color: white;
+        }
+
+        .btn-dark {
+            background: #050505;
+            color: white;
+        }
+
+.btn-light {
+    background: #eee;
+    color: #111;
+}
+
+.btn-logout {
+    background: #e30613;
+    color: white;
+}
+
+.btn-logout:hover {
+    background: #b9000b;
+}
+
+#status {
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+        .error {
+            color: #d00000;
+        }
+
+        @media (max-width: 650px) {
+
+            .profile-header {
+                padding: 25px;
+            }
+
+            .profile-header h1 {
+                font-size: 28px;
+            }
+
+            .profile-row {
+                display: block;
+            }
+
+            .profile-value {
+                text-align: left;
+                margin-top: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <a class="brand" href="/">
+        <img src="/logo.webp" alt="Weazel News">
+    </a>
+
+    <div>
+        <a class="btn dark" href="/citizen.html">
+            Espace citoyen
+        </a>
+
+        <a class="btn dark" href="/">
+            Accueil
+        </a>
+    </div>
+
+</header>
+
+
+<main class="profile-page">
+
+
+    <!-- EN-TÊTE -->
+
+    <section class="profile-header">
+
+        <small>ESPACE ABONNÉ</small>
+
+        <h1 id="welcome">
+            Mon profil
+        </h1>
+
+        <p>
+            Gérez vos informations personnelles et consultez votre compte Weazel News.
+        </p>
+
+    </section>
+
+
+    <!-- INFORMATIONS DU COMPTE -->
+
+    <section class="profile-card">
+
+        <h2>
+            👤 Informations du compte
+        </h2>
+
+
+        <div class="profile-row">
+
+            <div class="profile-label">
+                👤 Nom / prénom
+            </div>
+
+            <div
+                class="profile-value"
+                id="name">
+                Chargement...
+            </div>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <div class="profile-label">
+                📧 Adresse e-mail
+            </div>
+
+            <div
+                class="profile-value"
+                id="email">
+                Chargement...
+            </div>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <div class="profile-label">
+                📅 Membre depuis
+            </div>
+
+            <div
+                class="profile-value"
+                id="created">
+                Chargement...
+            </div>
+
+        </div>
+
+
+        <div class="profile-row">
+
+            <div class="profile-label">
+                ⏳ Durée de membre
+            </div>
+
+            <div
+                class="profile-value"
+                id="duration">
+                Calcul...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRÉSENTATION -->
+
+    <section class="profile-card">
+
+        <h2>
+            📝 Ma présentation
+        </h2>
+
+        <div
+            class="bio"
+            id="bio">
+            Aucune présentation renseignée.
+        </div>
+
+    </section>
+
+
+    <!-- GESTION -->
+
+    <section class="profile-card">
+
+        <h2>
+            ⚙️ Gestion du compte
+        </h2>
+
+<div class="actions">
+
+    <a
+        class="btn-profile btn-red"
+        href="/demandes.html">
+        📰 Mes demandes
+    </a>
+
+    <a
+        class="btn-profile btn-dark"
+        href="/parametres.html">
+        ⚙️ Paramètres
+    </a>
+
+  <a
+    class="btn-profile btn-light"
+    href="/">
+    ← Accueil
+</a>
+
+    <button
+        class="btn-profile btn-logout"
+        onclick="logout()">
+        🚪 Se déconnecter
+    </button>
+
+</div>
+
+        <p id="status"></p>
+
+    </section>
+
+
+</main>
+
+
+<script>
+
+async function loadProfile() {
+
+    try {
+
+        const response = await fetch("/api/me");
+
+        const data = await response.json();
+
+
+        /*
+         * Si aucune session n'est active,
+         * retour vers la connexion.
+         */
+
+        if (!data.user) {
+
+            window.location.href = "/login.html";
+
+            return;
+        }
+
+
+        const user = data.user;
+
+
+        /*
+         * NOM
+         */
+
+        document.getElementById("name").textContent =
+            user.name || "Non renseigné";
+
+
+        /*
+         * MESSAGE D'ACCUEIL
+         */
+
+        document.getElementById("welcome").textContent =
+            "Bonjour " + (user.name || "citoyen");
+
+
+        /*
+         * EMAIL
+         */
+
+        document.getElementById("email").textContent =
+            user.email || "Non renseigné";
+
+
+        /*
+         * BIO
+         */
+
+        document.getElementById("bio").textContent =
+            user.bio || "Aucune présentation renseignée.";
+
+
+        /*
+         * DATE ET DURÉE DE MEMBRE
+         */
+
+        if (user.created_at) {
+
+            const date = new Date(user.created_at);
+            const now = new Date();
+
+
+            /*
+             * DATE D'INSCRIPTION
+             */
+
+            document.getElementById("created").textContent =
+                date.toLocaleDateString("fr-FR", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                });
+
+
+            /*
+             * CALCUL DE LA DURÉE
+             */
+
+            let years =
+                now.getFullYear() - date.getFullYear();
+
+            let months =
+                now.getMonth() - date.getMonth();
+
+            let days =
+                now.getDate() - date.getDate();
+
+
+            if (days < 0) {
+
+                months--;
+
+                const previousMonth =
+                    new Date(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        0
+                    );
+
+                days += previousMonth.getDate();
+            }
+
+
+            if (months < 0) {
+
+                years--;
+
+                months += 12;
+            }
+
+
+            const duration = [];
+
+
+            if (years > 0) {
+
+                duration.push(
+                    years +
+                    (years > 1 ? " ans" : " an")
+                );
+            }
+
+
+            if (months > 0) {
+
+                duration.push(
+                    months +
+                    " mois"
+                );
+            }
+
+
+            if (
+                days > 0 ||
+                duration.length === 0
+            ) {
+
+                duration.push(
+                    days +
+                    (days > 1 ? " jours" : " jour")
+                );
+            }
+
+
+            document.getElementById("duration").textContent =
+                duration.join(" ");
+
+        } else {
+
+            document.getElementById("created").textContent =
+                "Date inconnue";
+
+            document.getElementById("duration").textContent =
+                "Inconnue";
+        }
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("status").textContent =
+            "Impossible de charger votre profil.";
+
+        document.getElementById("status").className =
+            "error";
+    }
+
+}
+
+
+async function logout() {
+
+    try {
+
+        const response = await fetch("/api/logout", {
+            method: "POST"
+        });
+
+        if (!response.ok) {
+            throw new Error("Déconnexion impossible");
+        }
+
+        window.location.href = "/login.html";
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("status").textContent =
+            "Impossible de se déconnecter.";
+
+        document.getElementById("status").className =
+            "error";
+    }
+
+}
+
+loadProfile();
+
+</script>

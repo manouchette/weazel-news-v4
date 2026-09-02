@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Espace citoyen — Weazel News</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <a class="brand" href="/">
+        <b>W</b>
+        <span>WEAZEL<small>NEWS</small></span>
+    </a>
+
+    <a class="btn dark" href="/">Accueil</a>
+</header>
+
+<main class="citizenpage">
+
+    <div id="who"></div>
+
+    <!-- DEMANDES -->
+    <section class="panel">
+
+        <label>ESPACE CITOYEN</label>
+
+        <h1>Votre demande au Weazel News</h1>
+
+        <p>
+            Vous souhaitez transmettre une information, proposer un événement,
+            demander un reportage ou contacter notre rédaction ?
+        </p>
+
+        <form id="requestForm">
+
+            <label for="requestType">Type de demande</label>
+
+            <select id="requestType" required>
+
+                <option value="">— Choisir une demande —</option>
+
+                <option value="Article">
+                    📰 Proposer un article
+                </option>
+
+                <option value="Annonce">
+                    📢 Demander une annonce
+                </option>
+
+                <option value="Emploi">
+                    💼 Demander une annonce emploi
+                </option>
+
+                <option value="Événement">
+                    📅 Proposer un événement
+                </option>
+
+                <option value="Interview">
+                    🎤 Demander une interview
+                </option>
+
+                <option value="JT">
+                    📺 Demander un passage au JT
+                </option>
+
+                <option value="Reportage photo">
+                    📸 Demander un reportage photo
+                </option>
+
+                <option value="Reportage vidéo">
+                    🎥 Demander un reportage vidéo
+                </option>
+
+                <option value="Publicité">
+                    💰 Demander une publicité
+                </option>
+
+                <option value="Autre">
+                    📝 Autre demande
+                </option>
+
+            </select>
+
+            <input
+                id="requestTitle"
+                placeholder="Titre / sujet de votre demande"
+                required
+            >
+
+            <input
+                id="requestContact"
+                placeholder="Moyen de contact (Discord, téléphone RP...)"
+                required
+            >
+
+            <textarea
+                id="requestContent"
+                rows="10"
+                placeholder="Expliquez votre demande en détail..."
+                required
+            ></textarea>
+
+            <button class="btn red" type="submit">
+                Envoyer à la rédaction
+            </button>
+
+            <p id="requestStatus"></p>
+
+        </form>
+
+    </section>
+
+
+    <!-- MES DEMANDES -->
+    <section class="panel">
+
+        <label>SUIVI</label>
+
+        <h2>Mes demandes</h2>
+
+        <p>
+            Retrouvez ici toutes vos demandes envoyées à la rédaction.
+        </p>
+
+        <div id="mine"></div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+    <section class="panel">
+
+        <label>CONTACT</label>
+
+        <h2>Contacter directement la rédaction</h2>
+
+        <p>
+            Une question ou une demande particulière ?
+            Envoyez-nous un message.
+        </p>
+
+        <form id="contact">
+
+            <input
+                id="subject"
+                placeholder="Sujet"
+                required
+            >
+
+            <textarea
+                id="message"
+                rows="6"
+                placeholder="Votre message..."
+                required
+            ></textarea>
+
+            <button class="btn red" type="submit">
+                Envoyer le message
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- INFORMATIONS -->
+    <section class="panel">
+
+        <label>INFORMATIONS</label>
+
+        <h2>Comment fonctionne votre demande ?</h2>
+
+        <div class="row">
+            <div>
+                <b>1. Vous envoyez votre demande</b>
+                <small>
+                    Remplissez le formulaire avec toutes les informations nécessaires.
+                </small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <b>2. La rédaction étudie votre demande</b>
+                <small>
+                    Notre équipe vérifie les informations et vous contacte si nécessaire.
+                </small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <b>3. Votre demande est traitée</b>
+                <small>
+                    Vous pourrez suivre son statut depuis votre espace citoyen.
+                </small>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script src="/citizen.js"></script>
+
+</body>
+</html>

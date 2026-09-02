@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Paramètres — Weazel News</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .settings-page {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px 60px;
+        }
+
+        .settings-header {
+            background: #050505;
+            color: white;
+            padding: 35px;
+            border-top: 5px solid #e30613;
+            margin-bottom: 25px;
+        }
+
+        .settings-header small {
+            color: #e30613;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .settings-header h1 {
+            margin: 8px 0;
+            font-size: 34px;
+        }
+
+        .settings-header p {
+            margin: 0;
+            color: #ccc;
+        }
+
+        .settings-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .settings-card h2 {
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        .field textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            outline: none;
+            border-color: #e30613;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-settings {
+            display: inline-block;
+            padding: 12px 20px;
+            border: 0;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .btn-save {
+            background: #e30613;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #b9000b;
+        }
+
+        .btn-back {
+            background: #050505;
+            color: white;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: 700;
+        }
+
+        .success {
+            color: #16803c;
+        }
+
+        .error {
+            color: #d00000;
+        }
+
+        .password-info {
+            background: #f7f7f7;
+            border-left: 4px solid #e30613;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        @media (max-width: 650px) {
+
+            .settings-header {
+                padding: 25px;
+            }
+
+            .settings-header h1 {
+                font-size: 28px;
+            }
+
+            .settings-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <a class="brand" href="/">
+        <img src="/logo.webp" alt="Weazel News">
+    </a>
+
+    <div>
+
+        <a class="btn dark" href="/profil.html">
+            👤 Mon profil
+        </a>
+
+        <a class="btn dark" href="/">
+            Accueil
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="settings-page">
+
+    <section class="settings-header">
+
+        <small>ESPACE ABONNÉ</small>
+
+        <h1>⚙️ Paramètres</h1>
+
+        <p>
+            Gérez les informations de votre compte Weazel News.
+        </p>
+
+    </section>
+
+
+    <!-- INFORMATIONS -->
+
+    <section class="settings-card">
+
+        <h2>👤 Informations personnelles</h2>
+
+        <div class="field">
+
+            <label for="name">
+                Nom / prénom
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                maxlength="60"
+                placeholder="Votre nom / prénom">
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="email">
+                📧 Adresse e-mail
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Votre adresse e-mail">
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="bio">
+                📝 Présentation
+            </label>
+
+            <textarea
+                id="bio"
+                maxlength="500"
+                placeholder="Présentez-vous..."></textarea>
+
+        </div>
+
+
+        <button
+            class="btn-settings btn-save"
+            onclick="saveProfile()">
+
+            💾 Enregistrer les informations
+
+        </button>
+
+    </section>
+
+
+    <!-- MOT DE PASSE -->
+
+    <section class="settings-card">
+
+        <h2>🔒 Sécurité</h2>
+
+        <div class="password-info">
+
+            Pour modifier votre mot de passe, indiquez votre nouveau mot de passe.
+            Il doit contenir au minimum 6 caractères.
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="password">
+                Nouveau mot de passe
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                minlength="6"
+                placeholder="Nouveau mot de passe">
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="passwordConfirm">
+                Confirmer le mot de passe
+            </label>
+
+            <input
+                type="password"
+                id="passwordConfirm"
+                minlength="6"
+                placeholder="Confirmer le mot de passe">
+
+        </div>
+
+
+        <button
+            class="btn-settings btn-save"
+            onclick="changePassword()">
+
+            🔐 Modifier le mot de passe
+
+        </button>
+
+    </section>
+
+
+    <div class="buttons">
+
+        <a
+            class="btn-settings btn-back"
+            href="/profil.html">
+
+            ← Retour au profil
+
+        </a>
+
+    </div>
+
+
+    <div id="message"></div>
+
+</main>
+
+
+<script>
+
+async function loadSettings() {
+
+    try {
+
+        const response = await fetch("/api/me");
+
+        const data = await response.json();
+
+        if (!data.user) {
+
+            window.location.href = "/login.html";
+
+            return;
+        }
+
+        const user = data.user;
+
+        document.getElementById("name").value =
+            user.name || "";
+
+        document.getElementById("email").value =
+            user.email || "";
+
+        document.getElementById("bio").value =
+            user.bio || "";
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Impossible de charger vos paramètres.",
+            true
+        );
+
+    }
+
+}
+
+
+async function saveProfile() {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const bio =
+        document.getElementById("bio").value.trim();
+
+
+    if (!name || !email) {
+
+        showMessage(
+            "Le nom et l'adresse e-mail sont obligatoires.",
+            true
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            "/api/account",
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    name,
+                    email,
+                    bio
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Impossible d'enregistrer les modifications."
+            );
+
+        }
+
+
+        showMessage(
+            "✓ Vos informations ont été enregistrées.",
+            false
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+async function changePassword() {
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmation =
+        document.getElementById("passwordConfirm").value;
+
+
+    if (password.length < 6) {
+
+        showMessage(
+            "Le mot de passe doit contenir au minimum 6 caractères.",
+            true
+        );
+
+        return;
+    }
+
+
+    if (password !== confirmation) {
+
+        showMessage(
+            "Les deux mots de passe ne correspondent pas.",
+            true
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            "/api/account/password",
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    password
+                })
+            }
+        );
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Impossible de modifier le mot de passe."
+            );
+
+        }
+
+
+        document.getElementById("password").value = "";
+        document.getElementById("passwordConfirm").value = "";
+
+
+        showMessage(
+            "✓ Votre mot de passe a été modifié.",
+            false
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+function showMessage(text, error) {
+
+    const element =
+        document.getElementById("message");
+
+    element.textContent = text;
+
+    element.className =
+        error ? "error" : "success";
+
+}
+
+
+loadSettings();
+
+</script>
+
+</body>
+</html>

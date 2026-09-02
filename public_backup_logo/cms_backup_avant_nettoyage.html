@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CMS Weazel News</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+<a class="brand" href="/">
+<b>W</b>
+<span>WEAZEL<small>NEWS</small></span>
+</a>
+
+<button id="logout" class="btn dark">
+Déconnexion
+</button>
+</header>
+
+<main class="cms">
+
+<div class="cmshead">
+<div>
+<label>CONTENT MANAGEMENT SYSTEM</label>
+<h1>Rédaction Weazel</h1>
+</div>
+
+<button id="newArticle" class="btn red">
++ Nouvel article
+</button>
+</div>
+
+<div id="stats" class="stats"></div>
+
+
+<!-- =========================
+     ARTICLES
+========================= -->
+
+<section class="panel">
+
+<h2>📰 Éditeur d'article</h2>
+
+<form id="editor" class="editor hidden">
+
+<input type="hidden" id="aid">
+
+<input
+id="atitle"
+placeholder="Titre de l'article"
+required
+>
+
+<input
+id="aexcerpt"
+placeholder="Résumé"
+>
+
+<select id="acat">
+<option>Actualités</option>
+<option>Faits divers</option>
+<option>Événement</option>
+<option>Citoyen</option>
+</select>
+
+<label>
+<input id="breaking" type="checkbox">
+🚨 Breaking News
+</label>
+
+<input
+id="aimage"
+name="image"
+type="file"
+accept="image/png,image/jpeg,image/webp,image/gif"
+>
+
+<textarea
+id="acontent"
+rows="12"
+placeholder="Contenu de l'article"
+required
+></textarea>
+
+<button class="btn red" type="submit">
+Publier
+</button>
+
+<button
+type="button"
+id="cancel"
+class="btn dark"
+>
+Annuler
+</button>
+
+</form>
+
+</section>
+
+
+<section>
+
+<h2>Articles</h2>
+
+<div id="articles" class="rows"></div>
+
+</section>
+
+
+<!-- =========================
+     EMPLOIS
+========================= -->
+
+<section class="panel">
+
+<h2>💼 Petites annonces – Emploi</h2>
+
+<form id="jobForm" class="inline">
+
+<input
+type="hidden"
+id="jid"
+>
+
+<input
+id="jt"
+placeholder="Poste / métier"
+required
+>
+
+<input
+id="jc"
+placeholder="Entreprise"
+required
+>
+
+<select id="jtype">
+
+<option>CDI</option>
+<option>CDD</option>
+<option>Intérim</option>
+<option>Indépendant</option>
+<option>Service public</option>
+<option>Stage</option>
+<option>Autre</option>
+
+</select>
+
+<input
+id="jcontact"
+placeholder="Contact"
+>
+
+<input
+id="jdiscord"
+placeholder="Discord de l'entreprise : https://discord.gg/..."
+>
+
+<input
+id="jimage"
+type="file"
+accept="image/png,image/jpeg,image/webp,image/gif"
+>
+
+<input
+id="jdesc"
+placeholder="Description du poste"
+required
+>
+
+<label>
+<input
+id="jactive"
+type="checkbox"
+checked
+>
+Offre active
+</label>
+
+<button
+class="btn red"
+type="submit"
+>
+Publier l'offre
+</button>
+
+<button
+type="button"
+id="jcancel"
+class="btn dark"
+>
+Annuler
+</button>
+
+</form>
+
+
+<div id="jobs" class="rows"></div>
+
+</section>
+
+
+<!-- =========================
+     ANNONCES CITOYENNES
+========================= -->
+
+<section class="panel">
+
+<h2>📨 Annonces citoyennes à valider</h2>
+
+<div id="citizens" class="rows"></div>
+
+</section>
+
+
+<!-- =========================
+     EVENEMENTS
+========================= -->
+
+<section class="panel">
+
+<h2>📅 Événements</h2>
+
+<form id="eventForm" class="inline">
+
+<input
+id="et"
+placeholder="Titre"
+required
+>
+
+<input
+id="ed"
+type="date"
+required
+>
+
+<input
+id="etm"
+placeholder="Heure"
+>
+
+<input
+id="el"
+placeholder="Lieu"
+>
+
+<input
+id="edesc"
+placeholder="Description"
+required
+>
+
+<button
+class="btn red"
+type="submit"
+>
+Ajouter
+</button>
+
+</form>
+
+<div id="events" class="rows"></div>
+
+</section>
+
+
+<!-- =========================
+     GALERIE
+========================= -->
+
+<section class="panel">
+
+<h2>📸 Galerie</h2>
+
+<form id="galleryForm" class="inline">
+
+<input
+id="gt"
+placeholder="Titre"
+required
+>
+
+<input
+id="gi"
+type="file"
+accept="image/*"
+required
+>
+
+<input
+id="gc"
+placeholder="Légende"
+>
+
+<button
+class="btn red"
+type="submit"
+>
+Ajouter
+</button>
+
+</form>
+
+<div id="photos" class="rows"></div>
+
+</section>
+
+
+<!-- =========================
+     UTILISATEURS
+========================= -->
+
+<section
+id="admin"
+class="panel hidden"
+>
+
+<h2>👥 Utilisateurs</h2>
+
+<form
+id="userForm"
+class="inline"
+>
+
+<input
+id="un"
+placeholder="Nom"
+required
+>
+
+<input
+id="ue"
+placeholder="Email"
+required
+>
+
+<input
+id="up"
+placeholder="Mot de passe"
+required
+>
+
+<select id="ur">
+
+<option>citoyen</option>
+<option>journaliste</option>
+<option>admin</option>
+
+</select>
+
+<button
+class="btn red"
+type="submit"
+>
+Créer
+</button>
+
+</form>
+
+<div id="users" class="rows"></div>
+
+</section>
+
+</main>
+
+<script src="/cms.js"></script>
+
+</body>
+</html>
+<input id="jdesc" placeholder="Description" required>
+<label><input id="jactive" type="checkbox" checked> Offre active</label>
+<button class="btn red">Publier l'offre</button>
+<button type="button" id="jcancel" class="btn dark">Annuler</button>
+</form>
+<div id="jobs" class="rows"></div>
+</section>
+<section class="panel"><h2>📨 Annonces citoyennes à valider</h2><div id="citizens" class="rows"></div></section><section class="panel"><h2>📅 Événements</h2><form id="eventForm" class="inline"><input id="et" placeholder="Titre" required><input id="ed" type="date" required><input id="etm" placeholder="Heure"><input id="el" placeholder="Lieu"><input id="edesc" placeholder="Description" required><button class="btn red">Ajouter</button></form><div id="events" class="rows"></div></section><section class="panel"><h2>📸 Galerie</h2><form id="galleryForm" class="inline"><input id="gt" placeholder="Titre" required><input id="gi" type="file" accept="image/*" required><input id="gc" placeholder="Légende"><button class="btn red">Ajouter</button></form><div id="photos" class="rows"></div></section><section id="admin" class="panel hidden"><h2>👥 Utilisateurs</h2><form id="userForm" class="inline"><input id="un" placeholder="Nom" required><input id="ue" placeholder="Email" required><input id="up" placeholder="Mot de passe" required><select id="ur"><option>citoyen</option><option>journaliste</option><option>admin</option></select><button class="btn red">Créer</button></form><div id="users" class="rows"></div></section></main><script src="/cms.js"></script></body></html>

@@ -1,0 +1,169 @@
+﻿const id = new URLSearchParams(location.search).get("id");
+
+const reactionList = [
+    ["like", "👍"],
+    ["heart", "❤️"],
+    ["laugh", "😂"],
+    ["wow", "😮"],
+    ["angry", "😡"]
+];
+
+async function load() {
+    const a = await fetch("/api/articles/" + id).then(r => r.json());
+
+    if (a.error) {
+        article.innerHTML = "<h1>Introuvable</h1>";
+        return;
+    }
+
+    const reactionCounts = {};
+
+    (a.reactions || []).forEach(r => {
+        reactionCounts[r.reaction] = r.count;
+    });
+
+    article.innerHTML = `
+        <a href="/">← Retour</a>
+
+        <div class="articlehead">
+            <label>
+                ${a.breaking ? "🚨 BREAKING NEWS • " : ""}
+                ${esc(a.category)}
+            </label>
+
+            <h1>${esc(a.title)}</h1>
+
+            <p class="meta">
+                Par ${esc(a.author)} • 👁️ ${a.views}
+            </p>
+
+            ${a.image ? `<img src="${a.image}">` : ""}
+        </div>
+
+        <div class="content">
+            ${esc(a.content).replace(/\n/g, "<br>")}
+        </div>
+
+        <div class="reactions">
+            ${reactionList.map(([code, emoji]) => `
+                <button
+                    class="reaction-btn"
+                    data-reaction="${code}"
+                    onclick="react('${code}')"
+                >
+                    <span>${emoji}</span>
+                    <strong>${reactionCounts[code] || 0}</strong>
+                </button>
+            `).join("")}
+        </div>
+
+        <section>
+            <h2>Commentaires</h2>
+
+            <form id="cf">
+                <textarea
+                    id="cc"
+                    placeholder="Votre commentaire..."
+                    required
+                ></textarea>
+
+                <button class="btn red">
+                    Commenter
+                </button>
+            </form>
+
+            <div>
+                ${
+                    a.comments.map(c => `
+                        <article class="comment">
+                            <b>${esc(c.name)}</b>
+                            <small>
+                                ${new Date(c.created_at).toLocaleString("fr-FR")}
+                            </small>
+                            <p>${esc(c.content)}</p>
+                        </article>
+                    `).join("")
+                    || "<p>Aucun commentaire.</p>"
+                }
+            </div>
+        </section>
+    `;
+
+    document.getElementById("cf").onsubmit = async e => {
+        e.preventDefault();
+
+        const r = await fetch("/api/articles/" + id + "/comments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                content: document.getElementById("cc").value
+            })
+        });
+
+        if (r.status === 401) {
+            location = "/login.html";
+            return;
+        }
+
+        load();
+    };
+}
+
+async function react(reaction) {
+    const button = document.querySelector(
+        `[data-reaction="${reaction}"]`
+    );
+
+    if (button) {
+        button.disabled = true;
+    }
+
+    const r = await fetch(
+        "/api/articles/" + id + "/reactions",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reaction: reaction
+            })
+        }
+    );
+
+    if (r.status === 401) {
+        location = "/login.html";
+        return;
+    }
+
+    const data = await r.json().catch(() => ({}));
+
+    if (!r.ok) {
+        alert(data.error || "Erreur lors de la réaction.");
+
+        if (button) {
+            button.disabled = false;
+        }
+
+        return;
+    }
+
+    await load();
+}
+
+function esc(s) {
+    return String(s ?? "").replace(
+        /[&<>"']/g,
+        m => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        }[m])
+    );
+}
+
+load();

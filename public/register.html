@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Inscription — Weazel News</title>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        .register-page {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 520px;
+            background: #fff;
+            border: 1px solid #e2e2e2;
+            border-top: 5px solid #e30613;
+            padding: 40px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.08);
+        }
+
+        .register-label {
+            display: inline-block;
+            color: #e30613;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .register-card h1 {
+            margin: 0 0 10px;
+            font-size: 34px;
+            color: #080808;
+        }
+
+        .register-intro {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .register-card label.field-label {
+            display: block;
+            font-weight: 700;
+            margin: 16px 0 7px;
+            color: #222;
+        }
+
+        .register-card input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 15px;
+            border: 1px solid #d5d5d5;
+            background: #fafafa;
+            font-size: 15px;
+            outline: none;
+            transition: .2s;
+        }
+
+        .register-card input:focus {
+            border-color: #e30613;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(227,6,19,.08);
+        }
+
+        .password-help {
+            display: block;
+            margin-top: 7px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .register-submit {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: 0;
+            background: #e30613;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .register-submit:hover {
+            background: #b9000b;
+        }
+
+        .register-submit:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        #s {
+            min-height: 22px;
+            margin-top: 16px;
+            font-weight: 700;
+        }
+
+        .error {
+            color: #d00000;
+        }
+
+        .success {
+            color: #168000;
+        }
+
+        .register-footer {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e5e5;
+            text-align: center;
+            color: #666;
+        }
+
+        .register-footer a {
+            color: #e30613;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .register-card {
+                padding: 28px 22px;
+            }
+
+            .register-card h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a class="brand" href="/">
+        <img src="/logo.webp" alt="Weazel News">
+    </a>
+
+    <a class="btn dark" href="/">Accueil</a>
+</header>
+
+<main class="register-page">
+
+    <section class="register-card">
+
+        <span class="register-label">WEAZEL NEWS</span>
+
+        <h1>Créer mon compte</h1>
+
+        <p class="register-intro">
+            Rejoignez l'espace citoyen du Weazel News et échangez directement
+            avec notre rédaction.
+        </p>
+
+        <form id="registerForm">
+
+            <label class="field-label" for="name">
+                Nom RP
+            </label>
+
+            <input
+                id="name"
+                type="text"
+                placeholder="Ex. John Doe"
+                maxlength="60"
+                autocomplete="name"
+                required
+            >
+
+            <label class="field-label" for="email">
+                Adresse e-mail
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="vous@exemple.com"
+                autocomplete="email"
+                required
+            >
+
+            <label class="field-label" for="password">
+                Mot de passe
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Votre mot de passe"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <span class="password-help">
+                6 caractères minimum.
+            </span>
+
+            <label class="field-label" for="passwordConfirm">
+                Confirmer le mot de passe
+            </label>
+
+            <input
+                id="passwordConfirm"
+                type="password"
+                placeholder="Répétez votre mot de passe"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <button
+                id="submitBtn"
+                class="register-submit"
+                type="submit"
+            >
+                Créer mon compte
+            </button>
+
+            <p id="s"></p>
+
+        </form>
+
+        <div class="register-footer">
+            Vous avez déjà un compte ?
+            <a href="/login.html">Se connecter</a>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+const form = document.getElementById("registerForm");
+const status = document.getElementById("s");
+const submitBtn = document.getElementById("submitBtn");
+
+form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    status.textContent = "";
+    status.className = "";
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const passwordConfirm = document.getElementById("passwordConfirm").value;
+
+    if (password.length < 6) {
+        status.textContent = "Le mot de passe doit contenir au moins 6 caractères.";
+        status.className = "error";
+        return;
+    }
+
+    if (password !== passwordConfirm) {
+        status.textContent = "Les deux mots de passe ne correspondent pas.";
+        status.className = "error";
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Création du compte...";
+
+    try {
+
+        const response = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            status.textContent = data.error || "Impossible de créer le compte.";
+            status.className = "error";
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Créer mon compte";
+            return;
+        }
+
+        status.textContent = "Compte créé avec succès !";
+        status.className = "success";
+
+        setTimeout(() => {
+            window.location.href = "/citizen.html";
+        }, 700);
+
+    } catch (error) {
+
+        status.textContent =
+            "Une erreur est survenue. Vérifiez que le serveur est démarré.";
+
+        status.className = "error";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Créer mon compte";
+    }
+
+});
+</script>
+
+</body>
+</html>
