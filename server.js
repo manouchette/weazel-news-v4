@@ -20,7 +20,7 @@ try{db.prepare("ALTER TABLE gallery ADD COLUMN youtube TEXT DEFAULT ''").run();c
 db.prepare("CREATE TABLE IF NOT EXISTS videos(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,youtube TEXT NOT NULL,caption TEXT DEFAULT '',author_id INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(author_id) REFERENCES users(id))").run();
 seed();
 app.set("trust proxy", 1); app.use(express.json({limit:"3mb"}));app.use(express.urlencoded({extended:true}));
-app.use(cookieSession({name:"weazel",keys:[process.env.SESSION_SECRET||"CHANGE_ME"],httpOnly:true,sameSite:"lax",secure:process.env.NODE_ENV==="production",maxAge:43200000}));
+app.use(cookieSession({name:"weazel",keys:[process.env.SESSION_SECRET||"CHANGE_ME"],httpOnly:true,sameSite:process.env.NODE_ENV==="production"?"none":"lax",secure:process.env.NODE_ENV==="production",maxAge:43200000}));
 app.use("/uploads",express.static(UPLOADS));app.use(express.static(path.join(ROOT,"public")));
 const storage=multer.diskStorage({destination:(_,__,cb)=>cb(null,UPLOADS),filename:(_,f,cb)=>cb(null,Date.now()+"-"+crypto.randomBytes(5).toString("hex")+path.extname(f.originalname).toLowerCase())});
 const upload=multer({storage,limits:{fileSize:10*1024*1024},fileFilter:(_,f,cb)=>{console.log("MULTER FILE:",f.originalname,f.mimetype);cb(null,true)}});
