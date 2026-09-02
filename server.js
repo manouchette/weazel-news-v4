@@ -1,7 +1,7 @@
-﻿require("dotenv").config();
+require("dotenv").config();
 const express=require("express"),path=require("path"),fs=require("fs"),crypto=require("crypto");
 const Database=require("better-sqlite3"),bcrypt=require("bcryptjs"),multer=require("multer"),cookieSession=require("cookie-session");
-const app=express(),PORT=+process.env.PORT||3000,ROOT=__dirname,DATA=path.join(ROOT,"data"),UPLOADS=path.join(ROOT,"uploads");
+const app=express(); const PORT=+process.env.PORT||3000; const ROOT=__dirname; const STORAGE=process.env.STORAGE_PATH||path.join(ROOT,"data"); const DATA=STORAGE; const UPLOADS=path.join(STORAGE,"uploads"); fs.mkdirSync(DATA,{recursive:true}); fs.mkdirSync(UPLOADS,{recursive:true});
 fs.mkdirSync(DATA,{recursive:true});fs.mkdirSync(UPLOADS,{recursive:true});
 const db=new Database(path.join(DATA,"weazel.db"));db.pragma("journal_mode=WAL");
 db.exec(`
