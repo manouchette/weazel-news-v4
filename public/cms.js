@@ -68,6 +68,7 @@ async function init() {
         await loadStats();
         await loadAll();
         await loadJobs();
+        await loadVideos();
 
         if (me.role === "admin") {
             const adminPanel = document.getElementById("admin");
@@ -923,6 +924,7 @@ jobForm.onsubmit = async event => {
         $("jactive").checked = true;
 
         await loadJobs();
+        await loadVideos();
 
     } catch (error) {
 
@@ -1071,6 +1073,7 @@ async function toggleJob(id) {
         );
 
         await loadJobs();
+        await loadVideos();
 
     } catch (error) {
 
@@ -1104,6 +1107,7 @@ async function delJob(id) {
         );
 
         await loadJobs();
+        await loadVideos();
 
     } catch (error) {
 
