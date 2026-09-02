@@ -1675,3 +1675,29 @@ logout.onclick = async () => {
 ========================================================= */
 
 init();
+async function delPhoto(id) {
+
+    if (!confirm("Supprimer cette photo ?")) {
+        return;
+    }
+
+    try {
+
+        await api(
+            "/api/admin/gallery/" + id,
+            {
+                method: "DELETE"
+            }
+        );
+
+        await loadAll();
+
+    } catch (error) {
+
+        alert(
+            "Erreur suppression galerie : " +
+            error.message
+        );
+    }
+}
+
