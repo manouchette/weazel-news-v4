@@ -924,7 +924,6 @@ jobForm.onsubmit = async event => {
         $("jactive").checked = true;
 
         await loadJobs();
-        await loadVideos();
 
     } catch (error) {
 
@@ -1073,7 +1072,6 @@ async function toggleJob(id) {
         );
 
         await loadJobs();
-        await loadVideos();
 
     } catch (error) {
 
@@ -1107,7 +1105,6 @@ async function delJob(id) {
         );
 
         await loadJobs();
-        await loadVideos();
 
     } catch (error) {
 
@@ -1680,28 +1677,26 @@ logout.onclick = async () => {
 
 init();
 async function delPhoto(id) {
-
-    if (!confirm("Supprimer cette photo ?")) {
-        return;
-    }
+    if (!confirm("Supprimer cette photo ?")) return;
 
     try {
+        const response = await fetch("/api/admin/gallery/" + id, {
+            method: "DELETE",
+            credentials: "include"
+        });
 
-        await api(
-            "/api/admin/gallery/" + id,
-            {
-                method: "DELETE"
-            }
-        );
+        const data = await response.json();
 
-        await loadAll();
+        if (!response.ok) {
+            throw new Error(data.error || "Impossible de supprimer la photo.");
+        }
+
+        alert("Photo supprimée avec succès.");
+
+        location.reload();
 
     } catch (error) {
-
-        alert(
-            "Erreur suppression galerie : " +
-            error.message
-        );
+        console.error("Suppression photo :", error);
+        alert(error.message);
     }
 }
-

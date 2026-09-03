@@ -23,7 +23,7 @@ seed();
 app.set("trust proxy", 1); app.use(express.json({limit:"3mb"}));app.use(express.urlencoded({extended:true}));
 app.use(cookieSession({name:"weazel",keys:[process.env.SESSION_SECRET||"CHANGE_ME"],httpOnly:true,sameSite:process.env.NODE_ENV==="production"?"none":"lax",secure:process.env.NODE_ENV==="production",maxAge:43200000}));
 app.use("/uploads",express.static(UPLOADS));app.use(express.static(path.join(ROOT,"public")));
-const storage=multer.diskStorage({destination:(_,__,cb)=>cb(null,UPLOADS),filename:(_,f,cb)=>cb(null,Date.now()+"-"+crypto.randomBytes(5).toString("hex")+path.extname(f.originalname).toLowerCase())});
+const storage=multer.memoryStorage();
 const upload=multer({storage,limits:{fileSize:10*1024*1024},fileFilter:(_,f,cb)=>{console.log("MULTER FILE:",f.originalname,f.mimetype);cb(null,true)}});
 const getUser=id=>db.prepare("SELECT * FROM users WHERE id=?").get(id),pub=u=>({id:u.id,name:u.name,email:u.email,role:u.role,bio:u.bio||"",avatar:u.avatar||null,created_at:u.created_at||null});
 const auth=(req,res,next)=>req.session?.userId?next():res.status(401).json({error:"Connexion requise."});
@@ -643,7 +643,7 @@ app.post("/api/admin/citizen-posts/:id/review", staff, async (req, res) => {
     }
 });
 
-app.post("/api/upload", auth, upload.single("image"), (req, res) => {
+app.post("/api/upload", auth, upload.single("image"), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({
@@ -651,8 +651,43 @@ app.post("/api/upload", auth, upload.single("image"), (req, res) => {
             });
         }
 
+        const { createClient } = require("@supabase/supabase-js");
+
+        const supabase = createClient(
+            process.env.SUPABASE_URL,
+            process.env.SUPABASE_SERVICE_ROLE_KEY
+        );
+
+        const ext = path.extname(req.file.originalname).toLowerCase() || ".jpg";
+        const filename =
+            Date.now() +
+            "-" +
+            crypto.randomBytes(5).toString("hex") +
+            ext;
+
+        const storagePath = "weazel/" + filename;
+
+        const { error: uploadError } = await supabase.storage
+            .from("uploads")
+            .upload(storagePath, req.file.buffer, {
+                contentType: req.file.mimetype,
+                upsert: false
+            });
+
+        if (uploadError) {
+            console.error("Supabase Storage :", uploadError);
+
+            return res.status(500).json({
+                error: "Impossible d'envoyer l'image vers le stockage."
+            });
+        }
+
+        const { data } = supabase.storage
+            .from("uploads")
+            .getPublicUrl(storagePath);
+
         res.json({
-            url: "/uploads/" + req.file.filename
+            url: data.publicUrl
         });
 
     } catch (error) {
@@ -663,7 +698,50 @@ app.post("/api/upload", auth, upload.single("image"), (req, res) => {
         });
     }
 });
+app.post("/api/admin/events", staff, async (req, res) => {
+    try {
+        const {
+            title,
+            description,
+            date,
+            time,
+            location,
+            image
+        } = req.body;
 
+        if (!title || !description || !date) {
+            return res.status(400).json({
+                error: "Titre, description et date requis."
+            });
+        }
+
+        const result = await pg.run(`
+            INSERT INTO events
+            (title, description, date, time, location, image, created_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            RETURNING id
+        `, [
+            title.trim(),
+            description.trim(),
+            date,
+            time || "",
+            location || "",
+            image || null,
+            req.session.userId
+        ]);
+
+        res.json({
+            id: result.rows[0].id
+        });
+
+    } catch (error) {
+        console.error("POST /api/admin/events :", error);
+
+        res.status(500).json({
+            error: "Impossible de créer l'événement."
+        });
+    }
+});
 app.get("/api/events", async (req, res) => {
     try {
         const events = await pg.all(`
